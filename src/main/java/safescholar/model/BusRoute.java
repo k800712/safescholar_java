@@ -1,23 +1,37 @@
 package safescholar.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name = "bus_routes")
 public class BusRoute {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String routeNumber;
+
+    @Column
     private String description;
 
-    public BusRoute(Long id, String routeNumber, String description) {
-        this.id = id;
-        this.routeNumber = routeNumber;
-        this.description = description;
+    @ManyToMany
+    @JoinTable(
+            name = "route_stops",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "stop_id")
+    )
+    private Set<BusStop> busStops = new HashSet<>();
+
+    @OneToMany(mappedBy = "busRoute", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BusLocation> busLocations = new ArrayList<>();
+
+    public BusRoute() {
     }
 
     public Long getId() {
@@ -42,6 +56,22 @@ public class BusRoute {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<BusStop> getBusStops() {
+        return busStops;
+    }
+
+    public void setBusStops(Set<BusStop> busStops) {
+        this.busStops = busStops;
+    }
+
+    public List<BusLocation> getBusLocations() {
+        return busLocations;
+    }
+
+    public void setBusLocations(List<BusLocation> busLocations) {
+        this.busLocations = busLocations;
     }
 
 }

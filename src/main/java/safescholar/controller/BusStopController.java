@@ -3,17 +3,17 @@ package safescholar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import safescholar.model.BusStop;
-import safescholar.service.BusStopService;
+import safescholar.service.BusService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/bus-stops")
 public class BusStopController {
-    private final BusStopService busStopService;
+    private final BusService busStopService;
 
     @Autowired
-    public BusStopController(BusStopService busStopService) {
+    public BusStopController(BusService busStopService) {
         this.busStopService = busStopService;
     }
 

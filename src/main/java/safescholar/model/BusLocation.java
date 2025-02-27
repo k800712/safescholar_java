@@ -1,19 +1,20 @@
 package safescholar.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "bus_stops")
-public class BusStop {
+@Table(name = "bus_locations")
+public class BusLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "bus_route_id", nullable = false)
+    private BusRoute busRoute;
 
     @Column(nullable = false)
     private double latitude;
@@ -21,10 +22,10 @@ public class BusStop {
     @Column(nullable = false)
     private double longitude;
 
-    @ManyToMany(mappedBy = "busStops")
-    private Set<BusRoute> busRoutes = new HashSet<>();
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
 
-    public BusStop() {
+    public BusLocation() {
     }
 
     public Long getId() {
@@ -35,12 +36,12 @@ public class BusStop {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public BusRoute getBusRoute() {
+        return busRoute;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBusRoute(BusRoute busRoute) {
+        this.busRoute = busRoute;
     }
 
     public double getLatitude() {
@@ -59,12 +60,17 @@ public class BusStop {
         this.longitude = longitude;
     }
 
-    public Set<BusRoute> getBusRoutes() {
-        return busRoutes;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setBusRoutes(Set<BusRoute> busRoutes) {
-        this.busRoutes = busRoutes;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
+
+    @PrePersist
+    protected void onCreate() {
+        timestamp = LocalDateTime.now();
+    }
 }

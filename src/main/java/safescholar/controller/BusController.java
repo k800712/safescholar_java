@@ -17,8 +17,13 @@ public class BusController {
         this.busService = busService;
     }
 
-    @GetMapping("/stops")
-    public List<BusStop> getNearbyBusStops(@RequestParam double lat, @RequestParam double lon) {
-        return busService.getNearbyBusStops(lat, lon);
+    @GetMapping("/stops/nearby")
+    public List<BusStop> getNearbyBusStops(
+            @RequestParam double lat,
+            @RequestParam double lon,
+            @RequestParam(defaultValue = "1000") double radius) {
+        return busService.getNearbyBusStops(lat, lon, radius);
     }
+
+    // 추가 버스 관련 엔드포인트들을 여기에 구현할 수 있습니다.
 }

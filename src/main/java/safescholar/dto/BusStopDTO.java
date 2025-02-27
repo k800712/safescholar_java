@@ -1,31 +1,12 @@
-package safescholar.model;
+package safescholar.dto;
 
-import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
-@Table(name = "bus_stops")
-public class BusStop {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BusStopDTO {
     private Long id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private double latitude;
-
-    @Column(nullable = false)
     private double longitude;
 
-    @ManyToMany(mappedBy = "busStops")
-    private Set<BusRoute> busRoutes = new HashSet<>();
-
-    public BusStop() {
-    }
+    public BusStopDTO() {}
 
     public Long getId() {
         return id;
@@ -58,13 +39,4 @@ public class BusStop {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-    public Set<BusRoute> getBusRoutes() {
-        return busRoutes;
-    }
-
-    public void setBusRoutes(Set<BusRoute> busRoutes) {
-        this.busRoutes = busRoutes;
-    }
-
 }
